@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jio Hotstar Ad Blocker</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main class="card">
+    <header class="header">
+      <div class="logo">JH</div>
+      <div>
+        <h1>Jio Hotstar Ad Blocker</h1>
+        <p>Local-only ad skipping</p>
+      </div>
+    </header>
+
+    <section class="status-row">
+      <span id="statusDot" class="dot on"></span>
+      <div>
+        <div id="status" class="status">Protection enabled</div>
+        <div id="siteStatus" class="muted">Works on hotstar.com</div>
+      </div>
+      <button id="toggle" class="toggle on" aria-label="Toggle protection"><span></span></button>
+    </section>
+
+    <label class="setting">
+      <span>
+        <strong>Skip detected video ads</strong>
+        <small>Seek past short ad media when confidently detected</small>
+      </span>
+      <input id="fastForward" type="checkbox" checked>
+    </label>
+
+    <label class="setting">
+      <span>
+        <strong>Hide ad spaces</strong>
+        <small>Hide visible sponsored/ad containers</small>
+      </span>
+      <input id="hideSpaces" type="checkbox" checked>
+    </label>
+
+    <section class="stats">
+      <div><strong id="count">0</strong><span>ads skipped</span></div>
+      <button id="reset" class="reset">Reset count</button>
+    </section>
+
+    <footer>
+      <span>v1.0.0</span>
+      <span>No analytics • No remote code</span>
+    </footer>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>
