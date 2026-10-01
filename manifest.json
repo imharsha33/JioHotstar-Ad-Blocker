@@ -3,7 +3,7 @@
   "name": "Jio Hotstar Ad Blocker",
   "short_name": "Hotstar Blocker",
   "version": "1.0.0",
-  "description": "Skips detectable JioHotstar video ads and hides common sponsored ad spaces. Local-only, with no analytics.",
+  "description": "Skips detectable JioHotstar video ads and auto-clicks skip buttons. Local-only, with no analytics.",
   "minimum_chrome_version": "110",
   "permissions": [
     "storage"

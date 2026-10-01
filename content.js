@@ -3,12 +3,10 @@
 
   const DEFAULTS = {
     enabled: true,
-    hideSpaces: true,
     fastForward: true
   };
 
   const state = { ...DEFAULTS };
-  const processed = new WeakMap();
   const lastSkip = new WeakMap();
   let pollTimer = null;
   let observer = null;
@@ -17,7 +15,6 @@
     if (!chrome?.storage?.local) return Promise.resolve();
     return chrome.storage.local.get(DEFAULTS).then((saved) => {
       Object.assign(state, saved);
-      applyHideRules();
     }).catch(() => {});
   }
 
@@ -65,31 +62,6 @@
     if (el.querySelector?.('[class*="ad" i], [id*="ad" i], [data-testid*="ad" i], [data-purpose*="ad" i]')) score += 1;
     if (el.querySelector?.('video')) score += 1;
     return score;
-  }
-
-  function findAdContainers() {
-    const candidates = new Set();
-    const selectors = [
-      '[data-testid*="ad" i]', '[data-test-id*="ad" i]', '[data-purpose*="ad" i]',
-      '[aria-label*="advert" i]', '[class*="advert" i]', '[id*="advert" i]',
-      '[class*="ad-container" i]', '[class*="ad_container" i]', '[id*="ad-container" i]',
-      '[class*="adbreak" i]', '[class*="commercial" i]'
-    ];
-    for (const selector of selectors) {
-      document.querySelectorAll(selector).forEach((el) => candidates.add(el));
-    }
-    // Add ancestors around explicit ad labels or buttons.
-    document.querySelectorAll('button, [role="button"], span, div').forEach((el) => {
-      if (candidates.size > 1200) return;
-      const text = textOf(el);
-      if (AD_TEXT_RE.test(text) || COUNTDOWN_RE.test(text)) {
-        let p = el;
-        for (let i = 0; i < 4 && p; i++, p = p.parentElement) {
-          if (isVisible(p)) candidates.add(p);
-        }
-      }
-    });
-    return [...candidates];
   }
 
   function findVideos() {
@@ -165,44 +137,14 @@
     return false;
   }
 
-  function hideAdSpaces() {
-    if (!state.hideSpaces) return;
-    for (const container of findAdContainers()) {
-      if (!isVisible(container)) continue;
-      if (adScore(container) < 4) continue;
-      const hasVideo = !!container.querySelector?.('video');
-      const hasSkip = !![...container.querySelectorAll?.('button, [role="button"]') || []]
-        .some((b) => SKIP_RE.test(textOf(b)));
-      if (hasVideo || hasSkip || AD_TEXT_RE.test(textOf(container))) {
-        if (!processed.has(container)) processed.set(container, container.getAttribute('style') || '');
-        container.classList.add('jha-hidden-ad-space');
-      }
-    }
-  }
-
-  function restoreAdSpaces() {
-    document.querySelectorAll('.jha-hidden-ad-space').forEach((el) => el.classList.remove('jha-hidden-ad-space'));
-  }
-
-  function applyHideRules() {
-    if (state.hideSpaces) injectStyle();
-    else removeStyle();
-    if (!state.hideSpaces) restoreAdSpaces();
-  }
-
   function injectStyle() {
     if (document.getElementById('jha-style')) return;
     const style = document.createElement('style');
     style.id = 'jha-style';
     style.textContent = `
-      .jha-hidden-ad-space { visibility: hidden !important; opacity: 0 !important; pointer-events: none !important; }
       [data-jha-skipped="true"] { visibility: hidden !important; opacity: 0 !important; pointer-events: none !important; }
     `;
     (document.documentElement || document.head || document.body)?.appendChild(style);
-  }
-
-  function removeStyle() {
-    document.getElementById('jha-style')?.remove();
   }
 
   function notifySkipped() {
@@ -212,7 +154,6 @@
   function scan() {
     if (!state.enabled) return;
     tryClickSkipButtons(document);
-    hideAdSpaces();
 
     for (const video of findVideos()) {
       if (isLikelyAd(video)) {
@@ -239,7 +180,6 @@
     for (const [key, change] of Object.entries(changes)) {
       if (key in state) state[key] = change.newValue;
     }
-    applyHideRules();
     scan();
   });
 

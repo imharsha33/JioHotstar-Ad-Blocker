@@ -1,10 +1,9 @@
-const DEFAULTS = { enabled: true, hideSpaces: true, fastForward: true, showBadge: true, skipCount: 0 };
+const DEFAULTS = { enabled: true, fastForward: true, showBadge: true, skipCount: 0 };
 const $ = (id) => document.getElementById(id);
 
 async function load() {
   const data = await chrome.storage.local.get(DEFAULTS);
   $('fastForward').checked = data.fastForward;
-  $('hideSpaces').checked = data.hideSpaces;
   $('count').textContent = String(data.skipCount || 0);
   setEnabled(Boolean(data.enabled));
   await updateSiteStatus();
@@ -32,7 +31,6 @@ $('toggle').addEventListener('click', async () => {
 });
 
 $('fastForward').addEventListener('change', (e) => chrome.storage.local.set({ fastForward: e.target.checked }));
-$('hideSpaces').addEventListener('change', (e) => chrome.storage.local.set({ hideSpaces: e.target.checked }));
 $('reset').addEventListener('click', async () => {
   await chrome.storage.local.set({ skipCount: 0 });
   $('count').textContent = '0';

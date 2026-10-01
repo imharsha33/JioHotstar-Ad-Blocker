@@ -5,7 +5,7 @@
 [![Privacy First](https://img.shields.io/badge/Privacy-100%25%20Local-success.svg)](#privacy--security)
 [![License](https://img.shields.io/badge/License-MIT-orange.svg)](LICENSE)
 
-A lightweight, local-only **Manifest V3** browser extension designed to skip detectable video ads, auto-click "Skip Ad" buttons, and hide promotional/sponsored banners on **JioHotstar** (`hotstar.com`).
+A lightweight, local-only **Manifest V3** browser extension designed to skip detectable video ads and auto-click "Skip Ad" buttons on **JioHotstar** (`hotstar.com`).
 
 ---
 
@@ -35,10 +35,9 @@ A lightweight, local-only **Manifest V3** browser extension designed to skip det
 
 - ⚡ **Automated Ad Fast-Forwarding**: Detects in-stream video ads and seeks past them instantly.
 - ⏭️ **Auto-Click "Skip Ad"**: Automatically locates and triggers the "Skip Ad" button the moment it becomes available.
-- 🛡️ **Hide Ad Containers**: Suppresses distracting sponsored tiles, banner containers, and promotional overlays.
 - 🔒 **100% Local & Privacy-Friendly**: Zero telemetry, zero analytics, zero external API requests. Everything runs directly inside your browser.
 - 📊 **Stats Counter**: Tracks how many ads have been skipped with an easy one-click reset.
-- ⚙️ **Customizable Controls**: Toggle ad skipping and banner hiding independently via a clean popup interface.
+- ⚙️ **Clean Controls**: Simple on/off toggle and fast-forward switch via a modern popup interface.
 
 ---
 
@@ -134,7 +133,6 @@ Clicking the extension icon opens the popup panel with the following controls:
 | :--- | :--- | :--- |
 | **Protection Enabled** | Global switch to turn the blocker on or off. | **ON** |
 | **Skip detected video ads** | Automatically seeks past short identified ad media. | **Checked** |
-| **Hide ad spaces** | Removes display ads, sponsored tiles, and banner elements. | **Checked** |
 | **Reset count** | Resets the skipped ads counter back to `0`. | — |
 
 ---

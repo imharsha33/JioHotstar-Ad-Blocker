@@ -1,6 +1,5 @@
 const DEFAULTS = {
   enabled: true,
-  hideSpaces: true,
   fastForward: true,
   showBadge: true,
   skipCount: 0
